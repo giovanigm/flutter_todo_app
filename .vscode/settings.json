@@ -5,7 +5,7 @@
         "web": true,
         ".idea": true,
         ".dart_tool": true,
-        "pokedex.iml": true,
+        "todo_app.iml": true,
         ".metadata": true,
         ".packages": true,
         "build": true,
