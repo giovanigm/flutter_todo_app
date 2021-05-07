@@ -9,14 +9,15 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
 import 'app/splash/splash_cubit.dart' as _i17;
+import 'app/task/list/task_list_cubit.dart' as _i18;
 import 'app/user/login/login_bloc.dart' as _i13;
 import 'app/user/login/login_cubit.dart' as _i14;
-import 'app/user/register/register_cubit.dart' as _i18;
+import 'app/user/register/register_cubit.dart' as _i19;
 import 'data/api/api.dart' as _i3;
 import 'data/database/dao/user_dao.dart' as _i6;
 import 'data/database/database.dart' as _i4;
-import 'data/di/api_module.dart' as _i19;
-import 'data/di/database_module.dart' as _i20;
+import 'data/di/api_module.dart' as _i20;
+import 'data/di/database_module.dart' as _i21;
 import 'data/repositories/user/user_local_data_source.dart' as _i7;
 import 'data/repositories/user/user_remote_data_source.dart' as _i8;
 import 'data/repositories/user/user_repository_impl.dart' as _i10;
@@ -55,11 +56,12 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
       () => _i16.RegisterUser(get<_i9.UserRepository>()));
   gh.factory<_i17.SplashCubit>(
       () => _i17.SplashCubit(get<_i11.GetAuthenticatedUser>()));
-  gh.factory<_i18.RegisterCubit>(
-      () => _i18.RegisterCubit(get<_i16.RegisterUser>()));
+  gh.factory<_i18.TaskListCubit>(() => _i18.TaskListCubit(get<_i15.Logout>()));
+  gh.factory<_i19.RegisterCubit>(
+      () => _i19.RegisterCubit(get<_i16.RegisterUser>()));
   return get;
 }
 
-class _$ApiModule extends _i19.ApiModule {}
+class _$ApiModule extends _i20.ApiModule {}
 
-class _$DatabaseModule extends _i20.DatabaseModule {}
+class _$DatabaseModule extends _i21.DatabaseModule {}

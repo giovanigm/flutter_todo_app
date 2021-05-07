@@ -21,5 +21,5 @@ abstract class Api {
   );
 
   @POST("/user/logout")
-  Future<AuthUserResponse> logout(@Header("Authorization") String token);
+  Future<void> logout(@Header("Authorization") String token);
 }

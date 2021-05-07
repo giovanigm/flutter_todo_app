@@ -48,20 +48,18 @@ class _Api implements Api {
   }
 
   @override
-  Future<AuthUserResponse> logout(token) async {
+  Future<void> logout(token) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<AuthUserResponse>(Options(
-                method: 'POST',
-                headers: <String, dynamic>{r'Authorization': token},
-                extra: _extra)
-            .compose(_dio.options, '/user/logout',
-                queryParameters: queryParameters, data: _data)
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = AuthUserResponse.fromJson(_result.data!);
-    return value;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+            method: 'POST',
+            headers: <String, dynamic>{r'Authorization': token},
+            extra: _extra)
+        .compose(_dio.options, '/user/logout',
+            queryParameters: queryParameters, data: _data)
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    return null;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
