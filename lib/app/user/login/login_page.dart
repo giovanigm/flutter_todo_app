@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/app/core/extensions/context_extensions.dart';
 import 'package:todo_app/app/task/list/task_list_page.dart';
 import 'package:todo_app/app/user/login/login_bloc.dart';
 import 'package:todo_app/app/user/login/login_event.dart';
@@ -32,11 +33,7 @@ class LoginPage extends StatelessWidget {
           },
           listener: (context, state) {
             if (state.isAuthenticating) {
-              showDialog(
-                context: context,
-                builder: (context) =>
-                    const Center(child: CircularProgressIndicator()),
-              );
+              context.showProgressDialog();
             }
             if (state.didAuthenticate) {
               Navigator.of(context).pushAndRemoveUntil(

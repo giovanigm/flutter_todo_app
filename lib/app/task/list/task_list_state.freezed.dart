@@ -17,14 +17,12 @@ class _$TaskListStateTearOff {
   const _$TaskListStateTearOff();
 
   _TaskListState call(
-      {required bool isLoading,
-      required bool isLoggingOut,
-      required bool didLogOut,
+      {required List<Task> tasks,
+      required bool isLoading,
       String? errorMessage}) {
     return _TaskListState(
+      tasks: tasks,
       isLoading: isLoading,
-      isLoggingOut: isLoggingOut,
-      didLogOut: didLogOut,
       errorMessage: errorMessage,
     );
   }
@@ -35,9 +33,8 @@ const $TaskListState = _$TaskListStateTearOff();
 
 /// @nodoc
 mixin _$TaskListState {
+  List<Task> get tasks => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
-  bool get isLoggingOut => throw _privateConstructorUsedError;
-  bool get didLogOut => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -50,11 +47,7 @@ abstract class $TaskListStateCopyWith<$Res> {
   factory $TaskListStateCopyWith(
           TaskListState value, $Res Function(TaskListState) then) =
       _$TaskListStateCopyWithImpl<$Res>;
-  $Res call(
-      {bool isLoading,
-      bool isLoggingOut,
-      bool didLogOut,
-      String? errorMessage});
+  $Res call({List<Task> tasks, bool isLoading, String? errorMessage});
 }
 
 /// @nodoc
@@ -68,23 +61,18 @@ class _$TaskListStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? tasks = freezed,
     Object? isLoading = freezed,
-    Object? isLoggingOut = freezed,
-    Object? didLogOut = freezed,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
+      tasks: tasks == freezed
+          ? _value.tasks
+          : tasks // ignore: cast_nullable_to_non_nullable
+              as List<Task>,
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isLoggingOut: isLoggingOut == freezed
-          ? _value.isLoggingOut
-          : isLoggingOut // ignore: cast_nullable_to_non_nullable
-              as bool,
-      didLogOut: didLogOut == freezed
-          ? _value.didLogOut
-          : didLogOut // ignore: cast_nullable_to_non_nullable
               as bool,
       errorMessage: errorMessage == freezed
           ? _value.errorMessage
@@ -101,11 +89,7 @@ abstract class _$TaskListStateCopyWith<$Res>
           _TaskListState value, $Res Function(_TaskListState) then) =
       __$TaskListStateCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {bool isLoading,
-      bool isLoggingOut,
-      bool didLogOut,
-      String? errorMessage});
+  $Res call({List<Task> tasks, bool isLoading, String? errorMessage});
 }
 
 /// @nodoc
@@ -121,23 +105,18 @@ class __$TaskListStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? tasks = freezed,
     Object? isLoading = freezed,
-    Object? isLoggingOut = freezed,
-    Object? didLogOut = freezed,
     Object? errorMessage = freezed,
   }) {
     return _then(_TaskListState(
+      tasks: tasks == freezed
+          ? _value.tasks
+          : tasks // ignore: cast_nullable_to_non_nullable
+              as List<Task>,
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isLoggingOut: isLoggingOut == freezed
-          ? _value.isLoggingOut
-          : isLoggingOut // ignore: cast_nullable_to_non_nullable
-              as bool,
-      didLogOut: didLogOut == freezed
-          ? _value.didLogOut
-          : didLogOut // ignore: cast_nullable_to_non_nullable
               as bool,
       errorMessage: errorMessage == freezed
           ? _value.errorMessage
@@ -150,23 +129,18 @@ class __$TaskListStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_TaskListState with DiagnosticableTreeMixin implements _TaskListState {
   const _$_TaskListState(
-      {required this.isLoading,
-      required this.isLoggingOut,
-      required this.didLogOut,
-      this.errorMessage});
+      {required this.tasks, required this.isLoading, this.errorMessage});
 
   @override
+  final List<Task> tasks;
+  @override
   final bool isLoading;
-  @override
-  final bool isLoggingOut;
-  @override
-  final bool didLogOut;
   @override
   final String? errorMessage;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'TaskListState(isLoading: $isLoading, isLoggingOut: $isLoggingOut, didLogOut: $didLogOut, errorMessage: $errorMessage)';
+    return 'TaskListState(tasks: $tasks, isLoading: $isLoading, errorMessage: $errorMessage)';
   }
 
   @override
@@ -174,9 +148,8 @@ class _$_TaskListState with DiagnosticableTreeMixin implements _TaskListState {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'TaskListState'))
+      ..add(DiagnosticsProperty('tasks', tasks))
       ..add(DiagnosticsProperty('isLoading', isLoading))
-      ..add(DiagnosticsProperty('isLoggingOut', isLoggingOut))
-      ..add(DiagnosticsProperty('didLogOut', didLogOut))
       ..add(DiagnosticsProperty('errorMessage', errorMessage));
   }
 
@@ -184,15 +157,11 @@ class _$_TaskListState with DiagnosticableTreeMixin implements _TaskListState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _TaskListState &&
+            (identical(other.tasks, tasks) ||
+                const DeepCollectionEquality().equals(other.tasks, tasks)) &&
             (identical(other.isLoading, isLoading) ||
                 const DeepCollectionEquality()
                     .equals(other.isLoading, isLoading)) &&
-            (identical(other.isLoggingOut, isLoggingOut) ||
-                const DeepCollectionEquality()
-                    .equals(other.isLoggingOut, isLoggingOut)) &&
-            (identical(other.didLogOut, didLogOut) ||
-                const DeepCollectionEquality()
-                    .equals(other.didLogOut, didLogOut)) &&
             (identical(other.errorMessage, errorMessage) ||
                 const DeepCollectionEquality()
                     .equals(other.errorMessage, errorMessage)));
@@ -201,9 +170,8 @@ class _$_TaskListState with DiagnosticableTreeMixin implements _TaskListState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(tasks) ^
       const DeepCollectionEquality().hash(isLoading) ^
-      const DeepCollectionEquality().hash(isLoggingOut) ^
-      const DeepCollectionEquality().hash(didLogOut) ^
       const DeepCollectionEquality().hash(errorMessage);
 
   @JsonKey(ignore: true)
@@ -214,17 +182,14 @@ class _$_TaskListState with DiagnosticableTreeMixin implements _TaskListState {
 
 abstract class _TaskListState implements TaskListState {
   const factory _TaskListState(
-      {required bool isLoading,
-      required bool isLoggingOut,
-      required bool didLogOut,
+      {required List<Task> tasks,
+      required bool isLoading,
       String? errorMessage}) = _$_TaskListState;
 
   @override
+  List<Task> get tasks => throw _privateConstructorUsedError;
+  @override
   bool get isLoading => throw _privateConstructorUsedError;
-  @override
-  bool get isLoggingOut => throw _privateConstructorUsedError;
-  @override
-  bool get didLogOut => throw _privateConstructorUsedError;
   @override
   String? get errorMessage => throw _privateConstructorUsedError;
   @override

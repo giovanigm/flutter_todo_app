@@ -22,7 +22,7 @@ class _$UserTearOff {
       required int age,
       required String email,
       String? password,
-      String? token}) {
+      required String token}) {
     return _User(
       id: id,
       name: name,
@@ -44,7 +44,7 @@ mixin _$User {
   int get age => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String? get password => throw _privateConstructorUsedError;
-  String? get token => throw _privateConstructorUsedError;
+  String get token => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
@@ -60,7 +60,7 @@ abstract class $UserCopyWith<$Res> {
       int age,
       String email,
       String? password,
-      String? token});
+      String token});
 }
 
 /// @nodoc
@@ -104,7 +104,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
       token: token == freezed
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -120,7 +120,7 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       int age,
       String email,
       String? password,
-      String? token});
+      String token});
 }
 
 /// @nodoc
@@ -165,7 +165,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
       token: token == freezed
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -178,7 +178,7 @@ class _$_User with DiagnosticableTreeMixin implements _User {
       required this.age,
       required this.email,
       this.password,
-      this.token});
+      required this.token});
 
   @override
   final String id;
@@ -191,7 +191,7 @@ class _$_User with DiagnosticableTreeMixin implements _User {
   @override
   final String? password;
   @override
-  final String? token;
+  final String token;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -253,7 +253,7 @@ abstract class _User implements User {
       required int age,
       required String email,
       String? password,
-      String? token}) = _$_User;
+      required String token}) = _$_User;
 
   @override
   String get id => throw _privateConstructorUsedError;
@@ -266,7 +266,7 @@ abstract class _User implements User {
   @override
   String? get password => throw _privateConstructorUsedError;
   @override
-  String? get token => throw _privateConstructorUsedError;
+  String get token => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$UserCopyWith<_User> get copyWith => throw _privateConstructorUsedError;

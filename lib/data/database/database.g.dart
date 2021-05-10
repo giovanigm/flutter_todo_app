@@ -62,6 +62,10 @@ class _$AppDatabase extends AppDatabase {
 
   UserDao? _userDaoInstance;
 
+  TaskDao? _taskDaoInstance;
+
+  CoreDao? _coreDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -81,6 +85,8 @@ class _$AppDatabase extends AppDatabase {
       onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Users` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `age` INTEGER NOT NULL, `email` TEXT NOT NULL, `password` TEXT, `token` TEXT, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `Tasks` (`id` TEXT NOT NULL, `description` TEXT NOT NULL, `is_completed` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -91,6 +97,16 @@ class _$AppDatabase extends AppDatabase {
   @override
   UserDao get userDao {
     return _userDaoInstance ??= _$UserDao(database, changeListener);
+  }
+
+  @override
+  TaskDao get taskDao {
+    return _taskDaoInstance ??= _$TaskDao(database, changeListener);
+  }
+
+  @override
+  CoreDao get coreDao {
+    return _coreDaoInstance ??= _$CoreDao(database, changeListener);
   }
 }
 
@@ -185,5 +201,127 @@ class _$UserDao extends UserDao {
   @override
   Future<void> deleteMany(List<UserData> items) async {
     await _userDataDeletionAdapter.deleteList(items);
+  }
+}
+
+class _$TaskDao extends TaskDao {
+  _$TaskDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database, changeListener),
+        _taskDataInsertionAdapter = InsertionAdapter(
+            database,
+            'Tasks',
+            (TaskData item) => <String, Object?>{
+                  'id': item.id,
+                  'description': item.description,
+                  'is_completed': item.isCompleted ? 1 : 0
+                },
+            changeListener),
+        _taskDataUpdateAdapter = UpdateAdapter(
+            database,
+            'Tasks',
+            ['id'],
+            (TaskData item) => <String, Object?>{
+                  'id': item.id,
+                  'description': item.description,
+                  'is_completed': item.isCompleted ? 1 : 0
+                },
+            changeListener),
+        _taskDataDeletionAdapter = DeletionAdapter(
+            database,
+            'Tasks',
+            ['id'],
+            (TaskData item) => <String, Object?>{
+                  'id': item.id,
+                  'description': item.description,
+                  'is_completed': item.isCompleted ? 1 : 0
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<TaskData> _taskDataInsertionAdapter;
+
+  final UpdateAdapter<TaskData> _taskDataUpdateAdapter;
+
+  final DeletionAdapter<TaskData> _taskDataDeletionAdapter;
+
+  @override
+  Stream<List<TaskData>> watchTasks() {
+    return _queryAdapter.queryListStream('SELECT * FROM Tasks',
+        mapper: (Map<String, Object?> row) => TaskData(
+            id: row['id'] as String,
+            description: row['description'] as String,
+            isCompleted: (row['is_completed'] as int) != 0),
+        queryableName: 'Tasks',
+        isView: false);
+  }
+
+  @override
+  Future<void> insertOne(TaskData item) async {
+    await _taskDataInsertionAdapter.insert(item, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertMany(List<TaskData> items) async {
+    await _taskDataInsertionAdapter.insertList(items, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateOne(TaskData item) async {
+    await _taskDataUpdateAdapter.update(item, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateMany(List<TaskData> items) async {
+    await _taskDataUpdateAdapter.updateList(items, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteOne(TaskData item) async {
+    await _taskDataDeletionAdapter.delete(item);
+  }
+
+  @override
+  Future<void> deleteMany(List<TaskData> items) async {
+    await _taskDataDeletionAdapter.deleteList(items);
+  }
+}
+
+class _$CoreDao extends CoreDao {
+  _$CoreDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  @override
+  Future<void> deleteAllUsers() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM Users');
+  }
+
+  @override
+  Future<void> deleteAllTasks() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM Tasks');
+  }
+
+  @override
+  Future<void> deleteAllData() async {
+    if (database is sqflite.Transaction) {
+      await super.deleteAllData();
+    } else {
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$AppDatabase(changeListener)
+          ..database = transaction;
+        await transactionDatabase.coreDao.deleteAllData();
+      });
+    }
   }
 }

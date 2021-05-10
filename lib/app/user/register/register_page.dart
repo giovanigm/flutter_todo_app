@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/app/core/extensions/context_extensions.dart';
 import 'package:todo_app/app/task/list/task_list_page.dart';
 import 'package:todo_app/app/user/register/register_cubit.dart';
 import 'package:todo_app/app/user/register/register_state.dart';
@@ -30,11 +31,7 @@ class RegisterPage extends StatelessWidget {
           },
           listener: (context, state) {
             if (state.isRegistering) {
-              showDialog(
-                context: context,
-                builder: (context) =>
-                    const Center(child: CircularProgressIndicator()),
-              );
+              context.showProgressDialog();
             }
             if (state.didRegister) {
               Navigator.of(context).pushAndRemoveUntil(

@@ -31,12 +31,7 @@ class UserRepositoryImpl implements UserRepository {
 
       return Result.success(value: user);
     } catch (error) {
-      switch (error.runtimeType) {
-        case DioError:
-          final response = (error as DioError).response;
-          return Result.error(message: response?.data?.toString());
-      }
-      return Result.error(message: "$error");
+      return handleError(error) as Result<User>;
     }
   }
 
@@ -55,12 +50,7 @@ class UserRepositoryImpl implements UserRepository {
 
       return Result.success(value: user);
     } catch (error) {
-      switch (error.runtimeType) {
-        case DioError:
-          final response = (error as DioError).response;
-          return Result.error(message: response?.data?.toString());
-      }
-      return Result.error(message: "$error");
+      return handleError(error) as Result<User>;
     }
   }
 
@@ -69,16 +59,11 @@ class UserRepositoryImpl implements UserRepository {
     try {
       final userData = UserData.fromEntity(user);
       await _remoteDataSource.logout(userData.token ?? "");
-      await _localDataSource.deleteUser(userData);
+      await _localDataSource.logout();
 
       return const Result.success();
     } catch (error) {
-      switch (error.runtimeType) {
-        case DioError:
-          final response = (error as DioError).response;
-          return Result.error(message: response?.data?.toString());
-      }
-      return Result.error(message: "$error");
+      return handleError(error);
     }
   }
 
@@ -95,7 +80,16 @@ class UserRepositoryImpl implements UserRepository {
       final user = userData.toEntity();
       return Result.success(value: user);
     } catch (error) {
-      return Result.error(message: "$error");
+      return handleError(error) as Result<User>;
     }
+  }
+
+  Result handleError(Object error) {
+    switch (error.runtimeType) {
+      case DioError:
+        final response = (error as DioError).response;
+        return Result.error(message: response?.data?.toString());
+    }
+    return Result.error(message: "$error");
   }
 }

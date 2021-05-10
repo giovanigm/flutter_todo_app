@@ -36,7 +36,7 @@ class UserData {
         age: age,
         email: email,
         password: password,
-        token: token,
+        token: token ?? "",
       );
 
   factory UserData.fromEntity(User entity) => UserData(

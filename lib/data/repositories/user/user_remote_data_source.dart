@@ -39,5 +39,5 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<void> logout(String token) => _api.logout("Bearer $token");
+  Future<void> logout(String token) => _api.logout(token);
 }

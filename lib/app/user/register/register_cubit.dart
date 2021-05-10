@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:todo_app/app/auth/auth_cubit.dart';
 import 'package:todo_app/app/user/register/register_state.dart';
 import 'package:todo_app/domain/entities/unregistered_user.dart';
 import 'package:todo_app/domain/usecases/user/register_user.dart';
@@ -7,8 +8,10 @@ import 'package:todo_app/domain/usecases/user/register_user.dart';
 @injectable
 class RegisterCubit extends Cubit<RegisterState> {
   final RegisterUser _registerUser;
+  final AuthCubit _authCubit;
 
-  RegisterCubit(this._registerUser) : super(RegisterState.initial());
+  RegisterCubit(this._registerUser, this._authCubit)
+      : super(RegisterState.initial());
 
   void setName(String value) {
     emit(state.copyWith(name: value));
@@ -41,7 +44,8 @@ class RegisterCubit extends Cubit<RegisterState> {
     final result = await _registerUser(unregisteredUser);
 
     result.when(
-      success: (_) {
+      success: (user) {
+        _authCubit.setUser(user);
         emit(state.copyWith(didRegister: true, isRegistering: false));
       },
       error: (message) {

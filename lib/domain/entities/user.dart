@@ -11,6 +11,6 @@ class User with _$User {
     required int age,
     required String email,
     String? password,
-    String? token,
+    required String token,
   }) = _User;
 }

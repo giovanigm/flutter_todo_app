@@ -9,17 +9,5 @@ class Logout {
 
   Logout(this._repository);
 
-  Future<Result<void>> call() =>
-      _repository.getAuthenticatedUser().then((result) {
-        if (result is Error) return result;
-
-        final user = (result as Success<User>).value;
-
-        if (user == null) {
-          return const Result.error(
-              message: "Não foi possível encontrar o usuário");
-        }
-
-        return _repository.logout(user);
-      });
+  Future<Result<void>> call(User user) => _repository.logout(user);
 }
