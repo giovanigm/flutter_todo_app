@@ -15,6 +15,7 @@
         "**/*.config.dart": true,
         "**/*.gr.dart": true,
         "**/*.freezed.dart": true,
+        "**/*.mocks.dart": true,
     },
     "editor.formatOnSave": true
 }
