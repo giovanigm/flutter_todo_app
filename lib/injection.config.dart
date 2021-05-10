@@ -9,19 +9,15 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
 import 'app/auth/auth_cubit.dart' as _i25;
-import 'app/splash/splash_cubit.dart' as _i29;
-import 'app/task/form/task_form_cubit.dart' as _i30;
-import 'app/task/list/task_list_cubit.dart' as _i31;
-import 'app/user/login/login_bloc.dart' as _i26;
-import 'app/user/login/login_cubit.dart' as _i27;
-import 'app/user/register/register_cubit.dart' as _i28;
+import 'app/splash/splash_cubit.dart' as _i27;
+import 'app/user/register/register_cubit.dart' as _i26;
 import 'data/api/api.dart' as _i3;
 import 'data/database/dao/core_dao.dart' as _i5;
 import 'data/database/dao/task_dao.dart' as _i7;
 import 'data/database/dao/user_dao.dart' as _i13;
 import 'data/database/database.dart' as _i4;
-import 'data/di/api_module.dart' as _i32;
-import 'data/di/database_module.dart' as _i33;
+import 'data/di/api_module.dart' as _i28;
+import 'data/di/database_module.dart' as _i29;
 import 'data/repositories/task/task_local_data_source.dart' as _i8;
 import 'data/repositories/task/task_remote_data_source.dart' as _i9;
 import 'data/repositories/task/task_repository_impl.dart' as _i11;
@@ -81,24 +77,13 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
   gh.factory<_i24.RegisterUser>(
       () => _i24.RegisterUser(get<_i16.UserRepository>()));
   gh.lazySingleton<_i25.AuthCubit>(() => _i25.AuthCubit(get<_i22.Logout>()));
-  gh.factory<_i26.LoginBloc>(
-      () => _i26.LoginBloc(get<_i21.Login>(), get<_i25.AuthCubit>()));
-  gh.factory<_i27.LoginCubit>(
-      () => _i27.LoginCubit(get<_i21.Login>(), get<_i25.AuthCubit>()));
-  gh.factory<_i28.RegisterCubit>(() =>
-      _i28.RegisterCubit(get<_i24.RegisterUser>(), get<_i25.AuthCubit>()));
-  gh.factory<_i29.SplashCubit>(() => _i29.SplashCubit(
+  gh.factory<_i26.RegisterCubit>(() =>
+      _i26.RegisterCubit(get<_i24.RegisterUser>(), get<_i25.AuthCubit>()));
+  gh.factory<_i27.SplashCubit>(() => _i27.SplashCubit(
       get<_i20.GetAuthenticatedUser>(), get<_i25.AuthCubit>()));
-  gh.factory<_i30.TaskFormCubit>(() => _i30.TaskFormCubit(
-      get<_i23.RegisterTask>(), get<_i12.UpdateTask>(), get<_i25.AuthCubit>()));
-  gh.factory<_i31.TaskListCubit>(() => _i31.TaskListCubit(
-      get<_i18.WatchTasks>(),
-      get<_i25.AuthCubit>(),
-      get<_i12.UpdateTask>(),
-      get<_i19.DeleteTask>()));
   return get;
 }
 
-class _$ApiModule extends _i32.ApiModule {}
+class _$ApiModule extends _i28.ApiModule {}
 
-class _$DatabaseModule extends _i33.DatabaseModule {}
+class _$DatabaseModule extends _i29.DatabaseModule {}
