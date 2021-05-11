@@ -13,7 +13,7 @@ class TaskListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<TaskListCubit>(
-      create: (context) => getIt<TaskListCubit>(),
+      create: (context) => getIt<TaskListCubit>()..loadTasks(),
       child: BlocConsumer<AuthCubit, AuthState>(
         listenWhen: (previous, current) {
           if (previous.isLoggingOut && !current.isLoggingOut) {
@@ -50,7 +50,7 @@ class TaskListPage extends StatelessWidget {
               ),
             ],
           ),
-          body: const TaskListContent(),
+          body: TaskListContent(),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               await showModalBottomSheet(

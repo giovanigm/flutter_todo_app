@@ -17,7 +17,7 @@ class TaskForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<TaskFormCubit>(
-      create: (context) => getIt<TaskFormCubit>(),
+      create: (context) => getIt<TaskFormCubit>()..init(taskToUpdate: task),
       child: _Form(
         task: task,
       ),
@@ -25,24 +25,13 @@ class TaskForm extends StatelessWidget {
   }
 }
 
-class _Form extends StatefulWidget {
+class _Form extends StatelessWidget {
   final Task? task;
 
   const _Form({
     Key? key,
     this.task,
   }) : super(key: key);
-
-  @override
-  __FormState createState() => __FormState();
-}
-
-class __FormState extends State<_Form> {
-  @override
-  void initState() {
-    context.read<TaskFormCubit>().init(taskToUpdate: widget.task);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

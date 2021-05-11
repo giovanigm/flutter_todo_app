@@ -6,22 +6,7 @@ import 'package:todo_app/app/task/list/widgets/task_item.dart';
 
 import '../task_list_cubit.dart';
 
-class TaskListContent extends StatefulWidget {
-  const TaskListContent({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  TaskListContentState createState() => TaskListContentState();
-}
-
-class TaskListContentState extends State<TaskListContent> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<TaskListCubit>().loadTasks();
-  }
-
+class TaskListContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TaskListCubit, TaskListState>(
