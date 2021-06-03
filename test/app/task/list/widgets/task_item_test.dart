@@ -5,15 +5,7 @@ import 'package:todo_app/domain/entities/task.dart';
 
 void main() {
   Widget _buildTaskItem(Task task) {
-    return MaterialApp(
-      home: MediaQuery(
-        data: const MediaQueryData(),
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: Material(child: TaskItem(task: task)),
-        ),
-      ),
-    );
+    return MaterialApp(home: Material(child: TaskItem(task: task)));
   }
 
   group('TaskItem', () {
